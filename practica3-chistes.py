@@ -3,6 +3,16 @@
 
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
+#otra forma de importar
+#--> make_parser
+#--> ContentHandler
+
+#import xml.sax
+#import xml.sax.handler
+#--> xml.sax.make_parser
+#--> xml.sax.ContentHandler
+
+#class ChistesHandler(xml.sax.ContentHandler):
 
 class ChistesHandler(ContentHandler):
     """
@@ -18,6 +28,7 @@ class ChistesHandler(ContentHandler):
         self.inPregunta = False
         self.respuesta = ""
         self.inRespuesta = False
+        #self.variable = []
 
     def startElement(self, name, attrs):
         """
@@ -26,8 +37,8 @@ class ChistesHandler(ContentHandler):
         if name == 'chiste':
             # De esta manera tomamos los valores de los atributos
             self.calificacion = attrs.get('calificacion', "")
+            print(self.calificacion)
         elif name == 'pregunta':
-            print("hola")
             self.inPregunta = True
         elif name == 'respuesta':
             self.inRespuesta = True
@@ -37,9 +48,13 @@ class ChistesHandler(ContentHandler):
         Método que se llama al cerrar una etiqueta
         """
         if name == 'pregunta':
-            self.pregunta = ""
+            print(self.pregunta)
+            #self.variable.append(self.pregunta)
+            
+            self.pregunta = "" #Se vacia para que no se concatene todo
             self.inPregunta = False
         if name == 'respuesta':
+            print(self.respuesta)
             self.respuesta = ""
             self.inRespuesta = False
 
@@ -56,7 +71,9 @@ if __name__ == "__main__":
     """
     Programa principal
     """
-    parser = make_parser()
+ 
+    parser = make_parser()#pasar cada linea
     cHandler = ChistesHandler()
     parser.setContentHandler(cHandler)
     parser.parse(open('chistes2.xml'))
+    #print(cHandler.variable)
