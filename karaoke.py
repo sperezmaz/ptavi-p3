@@ -25,6 +25,7 @@ if __name__ == "__main__":
                 for at, valor in atributo.items():
                     if at == "src" and valor[0:7] == "http://":
                         urlretrieve(valor, valor.split('/')[-1])
+                        valor = valor.split('/')[-1]
                     if valor != "":
                         atribut_org += "\t" + at + "=" + '"' + valor + '"'
 
