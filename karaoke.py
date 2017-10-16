@@ -5,6 +5,7 @@ import json
 from smallsmilhandler import SmallSMILHandler
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
+from urllib.request import urlretrieve
 
 
 if __name__ == "__main__":
@@ -22,8 +23,11 @@ if __name__ == "__main__":
         for linedicc in mytags:
             for tag, atributo in linedicc.items():
                 for at, valor in atributo.items():
+                    if at == "src" and valor[0:7] == "http://":
+                        urlretrieve(valor, valor.split('/')[-1])
                     if valor != "":
                         atribut_org += "\t" + at + "=" + '"' + valor + '"'
+
                 print(tag + atribut_org)
                 total += (tag + atribut_org + "\n")
                 atribut_org = ""
