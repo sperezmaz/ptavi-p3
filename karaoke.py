@@ -25,7 +25,7 @@ if __name__ == "__main__":
                     if valor != "":
                         atribut_org += "\t" + at + "=" + '"' + valor + '"'
                 print(tag + atribut_org)
-                total += (tag + atribut_org)
+                total += (tag + atribut_org + "\n")
                 atribut_org = ""
         json.dump(total, file_json)
 
