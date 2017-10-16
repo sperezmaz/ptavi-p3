@@ -8,16 +8,28 @@ from xml.sax.handler import ContentHandler
 
 
 if __name__ == "__main__":
+    file_json = sys.argv[1][:-4] + 'json'
+    file_json = open(file_json, 'w')
+    atribut_org = ""
+    total = ""
+    try:
+        parser = make_parser()
+        cHandler = SmallSMILHandler()
+        parser.setContentHandler(cHandler)
+        parser.parse(open(sys.argv[1]))
+        mytags = cHandler.get_tags()
 
-    parser = make_parser()
-    cHandler = SmallSMILHandler()
-    parser.setContentHandler(cHandler)
-    parser.parse(open(sys.argv[1]))
-    mytags = cHandler.get_tags()
-    
-    for linedicc in mytags:
-        for tag, atributo in linedicc.items(): 
-            print('\n' + tag, end='') 
-            
-            for at, valor in atributo.items():
-                print('/t' + at + "=" + '"' + valor + '"', end='')
+        for linedicc in mytags:
+            for tag, atributo in linedicc.items():
+                for at, valor in atributo.items():
+                    if valor != "":
+                        atribut_org += "\t" + at + "=" + '"' + valor + '"'
+                print(tag + atribut_org)
+                total += (tag + atribut_org)
+                atribut_org = ""
+        json.dump(total, file_json)
+
+    except IndexError:
+        sys.exit('Usage: python3 karaoke.py file.smil')
+    except FileNotFoundError:
+        sys.exit('Usage: python3 karaoke.py file.smil')
